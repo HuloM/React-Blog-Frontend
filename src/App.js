@@ -1,10 +1,14 @@
 import './App.css'
+import Header from './components/UI/Header/Header'
 
 function App() {
     return (
-        <div className="text-3xl font-bold underline">
-            <p>Hello world</p>
-        </div>
+        <>
+            <Header/>
+            <div className='bg-gray-800'>
+
+            </div>
+        </>
     )
 }
 
