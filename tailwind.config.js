@@ -3,7 +3,17 @@ module.exports = {
     "./src/**/*.{js,jsx,ts,tsx}"
   ],
   theme: {
-    extend: {},
+    extend: {
+      keyframes: {
+        'slide-down': {
+          '0%': {opacity: 0, transform: 'translateY(-3rem)'},
+          '100%': {opacity: 1, transform: 'translateY(0)'}
+        }
+      },
+      animation: {
+        slidedown: 'slide-down'
+      }
+    },
   },
   plugins: [],
 }

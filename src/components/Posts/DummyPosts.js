@@ -4,7 +4,7 @@ const posts = [
         title: 'This is the first post',
         imageUrl: 'No image',
         body: 'Body portion',
-        createdAt: new Date(2022, 5, 2),
+        createdAt: new Date(2022, 4, 2),
         author: 'Matt'
     },
     {
@@ -12,7 +12,7 @@ const posts = [
         title: 'This is the second post',
         imageUrl: 'No image',
         body: 'Body portion',
-        createdAt: new Date(2022, 5, 2),
+        createdAt: new Date(2022, 4, 2),
         author: 'Matt'
     },
     {
@@ -20,7 +20,7 @@ const posts = [
         title: 'This is the third post',
         imageUrl: 'No image',
         body: 'Body portion',
-        createdAt: new Date(2022, 5, 1),
+        createdAt: new Date(2022, 4, 1),
         author: 'Matt'
     },
     {
@@ -28,7 +28,7 @@ const posts = [
         title: 'This is the fourth post',
         imageUrl: 'No image',
         body: 'Body portion',
-        createdAt: new Date(2022, 4, 29),
+        createdAt: new Date(2022, 3, 29),
         author: 'Matt'
     },
 ]
