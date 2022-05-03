@@ -9,9 +9,6 @@ function App() {
             <Header/>
             <div className='flex justify-center items-center bg-gray-600'>
                 <Posts/>
-                <Modal>
-                    <p>testing</p>
-                </Modal>
             </div>
         </>
     )

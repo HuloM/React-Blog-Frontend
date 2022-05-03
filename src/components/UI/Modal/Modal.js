@@ -17,11 +17,11 @@ const Modal = props => {
     return (
         <Fragment>
             {createPortal(
-                <Backdrop onClick={props.onCancel}/>,
+                <Backdrop onClick={props.onClick}/>,
                 document.getElementById('overlays')
             )}
             {createPortal(
-                <ModalOverlay onConfirm={props.onConfirm}>{props.children}</ModalOverlay>,
+                <ModalOverlay>{props.children}</ModalOverlay>,
                 document.getElementById('overlays')
             )}
         </Fragment>
