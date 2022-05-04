@@ -1,14 +1,15 @@
 import './App.css'
 import Header from './components/UI/Header/Header'
 import Posts from './components/Posts/Posts'
-import Modal from './components/UI/Modal/Modal'
+import PostForm from './components/Posts/Post/PostForm/PostForm'
 
 function App() {
     return (
         <>
             <Header/>
-            <div className='flex justify-center items-center bg-gray-600'>
+            <div className='grid grid-rows-3 gap-20 justify-center bg-gray-600 h-screen'>
                 <Posts/>
+                <PostForm/>
             </div>
         </>
     )

@@ -6,7 +6,7 @@ const Posts = () => {
     const posts = DummyPosts
 
     return (
-        <div className='flex-container'>
+        <div className='flex-container h-fit'>
             {posts.map(post => (
                 <Post post={post}/>
             ))}
