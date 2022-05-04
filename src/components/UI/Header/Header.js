@@ -1,29 +1,49 @@
-import { Disclosure } from '@headlessui/react'
-
-const navigation = [
-    { name: 'Posts', href: '#', current: true },
-    { name: 'Sign up', href: '#', current: false, isAuth: false },
-    { name: 'Login', href: '#', current: false, isAuth: false  },
-]
+import {Disclosure} from '@headlessui/react'
+import {useState} from 'react'
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
 
-const Header = () => {
+const Header = props => {
+    const [navItems, setNavItems] = useState([
+        {name: 'Posts', href: '#', current: true, requireLogin: null, onclick: props.onPostButtonClick},
+        {name: 'Sign up', href: '#', current: false, requireLogin: false, onclick: props.onSigninButtonClick},
+        {name: 'Login', href: '#', current: false, requireLogin: false, onclick: props.onLoginButtonClick},
+        {name: 'Logout', href: '#', current: false, requireLogin: true, onclick: props.onLogoutButtonClick},
+    ])
+
+
+    const handleButtonClick = event => {
+        const buttonClicked = event.target.text
+        setNavItems(prevState => {
+            for (const navItem of prevState) {
+                if (navItem.name === buttonClicked) {
+                    navItem.current = true
+                    navItem.onclick()
+                }
+                else
+                    navItem.current = false
+            }
+            return [...prevState]
+        })
+    }
+
     return (
-        <Disclosure as='nav' className="bg-gray-800">
+        <Disclosure as="nav" className="bg-gray-800">
             <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
                 <div className="relative flex items-center justify-between h-16">
                     <div className="absolute right-0 space-x-4">
-                        {navigation.map((item) => ( !item.isAuth &&
-                            <a key={item.name} href={item.href}
+                        {navItems.map((item) => (
+                            (props.isLoggedIn === item.requireLogin || item.requireLogin === null) &&
+                            <a key={item.name} href={item.href} onClick={handleButtonClick}
                                 className={classNames(
                                     item.current ? 'bg-gray-900 text-white' :
                                         'text-gray-300 hover:bg-gray-700 hover:text-white',
-                                        'px-3 py-2 rounded-md text-sm font-medium')}
+                                    'px-3 py-2 rounded-md text-sm font-medium')}
                                 aria-current={item.current ? 'page' : undefined}>
                                 {item.name}
+                                {/*{console.log(props.isLoggedIn === item.requireLogin, props.isLoggedIn, item.requireLogin)}*/}
                             </a>
                         ))}
                     </div>
