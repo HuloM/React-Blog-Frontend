@@ -12,24 +12,24 @@ const PostForm = props => {
         setOpenForm(false)
     }
     return (
-        <div className='pt-4 flex grid grid-flow-row auto-rows-max justify-center'>
+        <div className='pt-4 flex h-fit'>
             {!openForm &&
-                <button onClick={handleOpenForm} className='rounded-full bg-gray-900 hover:bg-blue-700 text-white px-4 py-2'>Create New Post</button>
+                <button onClick={handleOpenForm} className='rounded-full bg-gray-900 hover:bg-blue-700 text-white px-4 py-2 text-center grow'>Create New Post</button>
             }
-            {openForm && <form onSubmit={handleFormSubmit} className='w-96'>
+            {openForm && <form onSubmit={handleFormSubmit} className='card bg-gray-500 justify-between grow w-96'>
                 <div>
                     <h2 className='font-bold text-center text-white'>Create New Post</h2>
                 </div>
                 <div className='py-2'>
                     <label className='font-bold'>
                         <span className='text-white'>Title:</span>
-                        <input type="text" className='form-input rounded block w-full'/>
+                        <input type="text" className='form-input rounded block w-full text-black'/>
                     </label>
                 </div>
                 <div className='py-2'>
                     <label className='font-bold'>
                         <span className='text-white'>body:</span>
-                        <textarea type="textarea" className='form-textarea mt-1 w-full rounded block' rows='5'/>
+                        <textarea type="textarea" className='form-textarea mt-1 w-full rounded block text-black' rows='5'/>
                     </label>
                 </div>
                 <div className='py-2'>

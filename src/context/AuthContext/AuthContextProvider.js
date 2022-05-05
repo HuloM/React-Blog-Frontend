@@ -6,18 +6,32 @@ const CartProvider = props => {
     const [isLoggedIn, setIsLoggedIn] = useState(false)
     const [token, setToken] = useState('')
     const [userId, setUserId] = useState('')
+    const [authError, setAuthError] = useState('')
 
     const UserLoginHandler = (event, authData) => {
+        console.log(event, authData)
+        // TODO: this will actually check a database
+        setAuthError('')
+        const email = authData.email
+        const password = authData.password
 
-        const milliseconds = 60 * 60 * 1000
-        localStorage.setItem('token', 'will implement later')
-        setToken('will implement later')
-        setUserId('will implement later')
-        localStorage.setItem('expiryDate', (new Date().getTime() + milliseconds).toISOString())
+        if(email === 'test@test.com' && password === 'password') {
+            console.log('logged in')
+            const milliseconds = 60 * 60 * 1000
+            localStorage.setItem('token', 'will implement later')
+            const expDate = new Date(new Date().getTime() + milliseconds)
+            localStorage.setItem('expiryDate', expDate.toISOString())
 
-        AutoLogoutUserHandler(milliseconds)
+            setToken('will implement later')
+            setUserId('will implement later')
 
-        setIsLoggedIn(true)
+            AutoLogoutUserHandler(milliseconds)
+
+            setIsLoggedIn(true)
+        }
+        else {
+            setAuthError('Invalid email or password')
+        }
     }
 
     const AutoLogoutUserHandler = useCallback((milliseconds) => {
@@ -30,6 +44,10 @@ const CartProvider = props => {
         setIsLoggedIn(false)
         localStorage.removeItem('token')
         localStorage.removeItem('expiryDate')
+    }
+
+    const ClickAuthModalError = () => {
+        setAuthError('')
     }
 
     useEffect(() => {
@@ -48,10 +66,10 @@ const CartProvider = props => {
         const milliseconds = 60 * 60 * 1000
 
         const expDate =
-            (new Date().getTime() + milliseconds).toISOString()
+            new Date(new Date().getTime() + milliseconds).toISOString()
         localStorage.setItem('expiryDate', expDate)
 
-        this.setState({isAuth: true, token: token, userId: userId})
+        setIsLoggedIn(true)
         AutoLogoutUserHandler(milliseconds)
     }, [AutoLogoutUserHandler])
 
@@ -59,8 +77,9 @@ const CartProvider = props => {
         token,
         userId,
         isLoggedIn,
+        authError,
+        ClickAuthModalError,
         UserLoginHandler,
-        AutoLogoutUserHandler,
         LogoutUserHandler,
     }
 

@@ -1,16 +1,18 @@
 import {Disclosure} from '@headlessui/react'
-import {useState} from 'react'
+import {useContext, useState} from 'react'
+import authContext from '../../../context/AuthContext/auth-context'
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
 
 const Header = props => {
+    const ctx = useContext(authContext)
     const [navItems, setNavItems] = useState([
         {name: 'Posts', href: '#', current: true, requireLogin: null, onclick: props.onPostButtonClick},
         {name: 'Sign up', href: '#', current: false, requireLogin: false, onclick: props.onSigninButtonClick},
         {name: 'Login', href: '#', current: false, requireLogin: false, onclick: props.onLoginButtonClick},
-        {name: 'Logout', href: '#', current: false, requireLogin: true, onclick: props.onLogoutButtonClick},
+        {name: 'Logout', href: '#', current: false, requireLogin: true, onclick: ctx.LogoutUserHandler},
     ])
 
 
