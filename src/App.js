@@ -2,66 +2,34 @@ import './App.css'
 import Header from './components/UI/Header/Header'
 import Posts from './components/Posts/Posts'
 import PostForm from './components/Posts/Post/PostForm/PostForm'
-import {useState} from 'react'
+import {useState, useEffect, useContext} from 'react'
+import LoginForm from './components/LoginForm/LoginForm'
+import SigninForm from './components/SigninForm/SigninForm'
+import authContext from './context/AuthContext/auth-context'
 
 function App() {
-    const [isLoggedIn, setIsLoggedIn] = useState(false)
-    const [openLoginForm, setOpenLoginForm] = useState(false)
-    const [openSigninForm, setOpenSigninForm] = useState(false)
-
-    const UserLoginHandler = () => {
-        setIsLoggedIn(true)
-        localStorage.setItem('token', 'will implement later')
-
-        AutoLogoutUserHandler()
-        setOpenLoginForm(false)
-    }
-
-    const AutoLogoutUserHandler = () => {
-        const milliseconds = 60 * 60 * 1000
-        setTimeout(() => {
-            LogoutUserHandler()
-        }, milliseconds)
-
-    }
-
-    const LogoutUserHandler = () => {
-        setIsLoggedIn(false)
-        localStorage.removeItem('token')
-        localStorage.removeItem('expiryDate')
-    }
+    const ctx = useContext(authContext)
+    const [content, setContent] = useState(<Posts/>)
 
     const OpenLoginFormHandler = () => {
-        setOpenLoginForm(true)
-        setOpenSigninForm(false)
-        UserLoginHandler()
+        setContent(<LoginForm/>)
     }
 
     const OpenSigninFormHandler = () => {
-        setOpenSigninForm(true)
-        setOpenLoginForm(false)
+        setContent(<SigninForm/>)
     }
 
     const OpenPostFormHandler = () => {
-        setOpenLoginForm(false)
-        setOpenSigninForm(false)
+        setContent(<Posts/>)
     }
-
-    let content = <Posts/>
-
-    if (openLoginForm)
-        content = <p> implement login form</p> //<LoginForm/>
-    else if (openSigninForm)
-        content = <p> implement sign in form</p> //<SigninForm/>
-
     return (
         <>
             <Header onLoginButtonClick={OpenLoginFormHandler} onSigninButtonClick={OpenSigninFormHandler}
-                    onPostButtonClick={OpenPostFormHandler} onLogoutButtonClick={LogoutUserHandler} isLoggedIn={isLoggedIn}
+                    onPostButtonClick={OpenPostFormHandler} isLoggedIn={ctx.isLoggedIn}
             />
             <div className='grid grid-rows-3 gap-20 justify-center bg-gray-600 h-screen'>
                 {content}
-                {isLoggedIn && <PostForm/>}
+                {ctx.isLoggedIn && <PostForm/>}
             </div>
         </>
     )
