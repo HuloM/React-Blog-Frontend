@@ -1,6 +1,5 @@
 import {useContext, useState} from 'react'
 import authContext from '../../context/AuthContext/auth-context'
-import Modal from '../UI/Modal/Modal'
 
 const LoginForm = () => {
     const ctx = useContext(authContext)

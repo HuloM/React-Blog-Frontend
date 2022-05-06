@@ -7,7 +7,7 @@ const IndividualPost = props => {
             <div className='text-black text-2xl text-center font-bold'>
                 {post.title}
             </div>
-            <div className='overflow-y-auto max-h-96 text-justify scroll-smooth scroll-m-auto'>
+            <div className='scrollbar-thin overflow-y-auto max-h-96 text-justify scroll-smooth scroll-m-auto'>
                 <p className='m-auto'>{post.body}</p>
             </div>
             <div className='text-right'>
