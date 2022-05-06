@@ -8,7 +8,7 @@ const Posts = () => {
     return (
         <div className='flex-container h-fit'>
             {posts.map(post => (
-                <Post post={post}/>
+                <Post post={post} key={post.id}/>
             ))}
         </div>
     )

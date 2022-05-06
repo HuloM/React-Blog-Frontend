@@ -1,3 +1,5 @@
+import Comments from '../../Comments/Comments'
+
 const IndividualPost = props => {
     const post = props.post
     return (
@@ -13,6 +15,9 @@ const IndividualPost = props => {
                     {post.author}
                 </div>
                 {post.createdAt.toLocaleString()}
+            </div>
+            <div>
+                {post.comments.length > 0 && <Comments comments={post.comments}/>}
             </div>
         </>
     )

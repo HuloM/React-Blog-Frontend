@@ -9,7 +9,6 @@ const CartProvider = props => {
     const [authError, setAuthError] = useState('')
 
     const UserLoginHandler = (event, authData) => {
-        console.log(event, authData)
         // TODO: this will actually check a database
         setAuthError('')
         const email = authData.email

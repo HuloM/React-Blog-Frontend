@@ -45,7 +45,6 @@ const Header = props => {
                                     'px-3 py-2 rounded-md text-sm font-medium')}
                                 aria-current={item.current ? 'page' : undefined}>
                                 {item.name}
-                                {/*{console.log(props.isLoggedIn === item.requireLogin, props.isLoggedIn, item.requireLogin)}*/}
                             </a>
                         ))}
                     </div>

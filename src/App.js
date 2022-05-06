@@ -27,17 +27,17 @@ function App() {
         setContentStateString('posts')
     }
     return (
-        <>
+        <div className='bg-gray-600 h-screen'>
             <Header onLoginButtonClick={OpenLoginFormHandler} onSigninButtonClick={OpenSigninFormHandler}
                     onPostButtonClick={OpenPostFormHandler} isLoggedIn={ctx.isLoggedIn}
             />
-            <div className='grid grid-rows-3 gap-20 justify-center bg-gray-600 h-screen'>
+            <div className='grid grid-flow-row auto-rows-auto gap-20 bg-gray-600 justify-center'>
                 <div>
                     {content}
                     {ctx.isLoggedIn && contentStateString === 'posts' && <PostForm/>}
                 </div>
             </div>
-        </>
+        </div>
     )
 }
 
