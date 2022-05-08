@@ -6,7 +6,8 @@ const AuthContext = React.createContext({
     isLoggedIn: false,
     authError: '',
     ClickAuthModalError: () => {},
-    UserLoginHandler: (event, authData) => {},
+    UserSignupHandler: (authdata) => {},
+    UserLoginHandler: (authData) => {},
     LogoutUserHandler: () => {}
 })
 

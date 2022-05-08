@@ -25,19 +25,10 @@ class IndividualPost extends Component {
                 return res.json()
             })
             .then(resData => {
-                console.log(resData)
                 this.setState({
                     title: resData.post.title,
-                    author: resData.post.author.name,
-                    image: url + resData.post.imageUrl,
-                    createdAt: new Date(resData.post.createdAt).toLocaleDateString('en-US'),
-                    body: resData.post.body,
-                    comments: resData.post.comments,
-                })
-                console.log({
-                    title: resData.post.title,
-                    author: resData.post.author.name,
-                    image: url + resData.post.imageUrl,
+                    author: resData.post.author.username,
+                    image: 'http://localhost:8080/static/' + resData.post.imageUrl,
                     createdAt: new Date(resData.post.createdAt).toLocaleDateString('en-US'),
                     body: resData.post.body,
                     comments: resData.post.comments,
@@ -54,6 +45,9 @@ class IndividualPost extends Component {
                 <div className='text-black text-2xl text-center font-bold'>
                     {this.state.title}
                 </div>
+                <div className='flex justify-center max-h-96 w-fit'>
+                    <img src={this.state.image} alt="alt"/>
+                </div>
                 <div className='scrollbar-thin overflow-y-auto max-h-96 text-justify scroll-smooth scroll-m-auto'>
                     <p className='m-auto'>{this.state.body}</p>
                 </div>
@@ -64,7 +58,7 @@ class IndividualPost extends Component {
                     {this.state.createdAt}
                 </div>
                 <div>
-                    {this.state.comments && this.state.comments.length > 0 && <Comments comments={this.state.comments}/>}
+                    {this.state.comments.length > 0 && <Comments comments={this.state.comments}/>}
                 </div>
             </>
         )

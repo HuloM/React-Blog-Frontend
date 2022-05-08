@@ -23,7 +23,7 @@ const Post = props => {
                     <span className='text-left'>{post.title}</span>
                     <div className='top-0 right-0 text-right'>
                         <span>{post.author.username}</span>
-                        <div>{new Date(post.createdAt).toISOString().split('T')[0].replaceAll('-', '/')}</div>
+                        <div>{new Date(post.createdAt).toLocaleString().split(',')[0]}</div>
                     </div>
                 </div>
             </a>

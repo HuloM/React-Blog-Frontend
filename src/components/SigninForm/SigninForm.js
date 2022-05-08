@@ -1,9 +1,10 @@
-import {useCallback, useState} from 'react'
+import {useCallback, useContext, useState} from 'react'
 import useInput from '../../hooks/use-input'
+import authContext from '../../context/AuthContext/auth-context'
 
 const SigninForm = props => {
     let formIsValid = false
-
+    const ctx = useContext(authContext)
     const [confirmPassword, setConfirmPassword] = useState('')
     const confirmPasswordChangeHandler = event => {
         setConfirmPassword(event.target.value)
@@ -68,13 +69,14 @@ const SigninForm = props => {
             confirmPassword,
         }
         console.log(form)
+        ctx.UserSignupHandler(form)
 
-        resetUsername('')
-        resetEmail('')
-        resetFirstname('')
-        resetLastname('')
-        resetPassword('')
-        setConfirmPassword('')
+        // resetUsername('')
+        // resetEmail('')
+        // resetFirstname('')
+        // resetLastname('')
+        // resetPassword('')
+        // setConfirmPassword('')
     }
     if (emailIsValid && usernameIsValid && passwordIsValid && firstnameIsValid && lastnameIsValid)
         formIsValid = true
@@ -83,8 +85,11 @@ const SigninForm = props => {
         <div className='pt-4 flex h-fit'>
             <form className='card bg-gray-500 justify-between grow w-96' onSubmit={FormSubmitHandler}>
                 <div>
-                    <h2 className='font-bold text-center text-white'>Login</h2>
+                    <h2 className='font-bold text-center text-white'>Create a New Account</h2>
                 </div>
+                {ctx.authError !== '' && <div className='bg-gray-800 text-center justify-center mt-3 rounded'>
+                    <p className='text-rose-600'>{ctx.authError}</p>
+                </div>}
                 <div className='py-2'>
                     <label className='font-bold'>
                         <span className={`${usernameIsInvalid && 'text-red-700'}`}>Username</span>

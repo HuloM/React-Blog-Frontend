@@ -8,7 +8,35 @@ const CartProvider = props => {
     const [userId, setUserId] = useState('')
     const [authError, setAuthError] = useState('')
 
-    const UserLoginHandler = (event, authData) => {
+    const UserSignupHandler = async authdata => {
+        setAuthError('')
+        const formData = new FormData()
+        formData.append('username', authdata.username)
+        formData.append('first_name', authdata.first_name)
+        formData.append('last_name', authdata.last_name)
+        formData.append('email', authdata.email)
+        formData.append('password', authdata.password)
+        formData.append('confirmPassword', authdata.confirmPassword)
+
+        const response = await fetch('http://localhost:8080/signup', {
+            method: 'PUT',
+            body: formData
+        })
+        if (response.status !== 200) {
+            if (response.status !== 422)
+            {
+                setAuthError('Error signing up user, please try again later')
+                return
+            }
+            const data = await response.json()
+            setAuthError(data.message)
+            return
+        }
+        const data = response.json()
+        // redirect to login
+    }
+
+    const UserLoginHandler = authData => {
         // TODO: this will actually check a database
         setAuthError('')
         const email = authData.email
@@ -78,6 +106,7 @@ const CartProvider = props => {
         isLoggedIn,
         authError,
         ClickAuthModalError,
+        UserSignupHandler,
         UserLoginHandler,
         LogoutUserHandler,
     }
