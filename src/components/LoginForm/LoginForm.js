@@ -1,29 +1,43 @@
-import {useContext, useState} from 'react'
+import {useContext, useCallback} from 'react'
 import authContext from '../../context/AuthContext/auth-context'
+import useInput from '../../hooks/use-input'
 
 const LoginForm = () => {
     const ctx = useContext(authContext)
-    const [emailInput, setEmailInput] = useState('')
-    const [passwordInput, setPasswordInput] = useState('')
+    let formIsValid = false
 
-    const EmailInputChangeHandler = event => {
-        setEmailInput(event.target.value)
-    }
+    const {
+        enteredInput: passwordInput,
+        enteredInputIsValid: passwordIsValid,
+        inputIsInvalid: passwordIsInvalid,
+        inputBlurHandler: passwordBlurHandler,
+        inputChangeHandler: passwordChangeHandler,
+        resetOnFormSubmitHandler: resetPassword
+    } = useInput(useCallback(
+        input => input.trim() !== '' && input.length > 8
+    ))
 
-    const PasswordInputChangeHandler = event => {
-        setPasswordInput(event.target.value)
-    }
+    const {
+        enteredInput: emailInput,
+        enteredInputIsValid: emailIsValid,
+        inputIsInvalid: emailIsInvalid,
+        inputBlurHandler: emailBlurHandler,
+        inputChangeHandler: emailChangeHandler,
+        resetOnFormSubmitHandler: resetEmail
+    } = useInput(useCallback(input => input.trim() !== '' && input.includes('@') && input.length > 4, []))
 
     const FormSubmitHandler = event => {
         event.preventDefault()
         const email = emailInput
         const password = passwordInput
-
         ctx.UserLoginHandler(event, {email: email, password: password})
-        if (ctx.authError)
-            setEmailInput(email)
-        setPasswordInput('')
+        if (ctx.authError !== null) {
+            resetEmail('')
+            resetPassword('')
+        }
     }
+    if (emailIsValid && passwordIsValid)
+        formIsValid = true
 
     return (
         <div className='pt-4 flex h-fit'>
@@ -36,20 +50,24 @@ const LoginForm = () => {
                 </div>}
                 <div className='py-2'>
                     <label className='font-bold'>
-                        <span className='text-white'>Email</span>
-                        <input type='text' className='form-input rounded block w-full text-black'
-                                onChange={EmailInputChangeHandler} value={emailInput}/>
+                        <span className={`${emailIsInvalid && 'text-red-700'}`}>Email</span>
+                        <input type='email' className={`form-input rounded block w-full text-black 
+                                ${emailIsInvalid && 'border-red-700 border-2'}`}
+                                onChange={emailChangeHandler} value={emailInput} onBlur={emailBlurHandler}/>
                     </label>
                 </div>
                 <div className='py-2'>
                     <label className='font-bold'>
-                        <span className='text-white'>Password</span>
-                        <input type='password' className='form-input rounded block w-full text-black'
-                                onChange={PasswordInputChangeHandler} value={passwordInput}/>
+                        <span className={`${passwordIsInvalid && 'text-red-700'}`}>Password</span>
+                        <input type='password' className={`form-input rounded block w-full text-black 
+                                ${passwordIsInvalid && 'border-red-700 border-2'}`}
+                                onChange={passwordChangeHandler} value={passwordInput} onBlur={passwordBlurHandler}/>
                     </label>
                 </div>
-                <button type='submit'
-                        className='rounded-full bg-gray-900 hover:bg-blue-700 text-white px-4 py-2 mt-1'>Submit
+                <button disabled={!formIsValid} type='submit'
+                        className={`rounded-full 
+                        ${formIsValid ? 'bg-gray-900 hover:bg-blue-700' : 'bg-gray-600'} text-white px-4 py-2 mt-1`}>
+                    Login
                 </button>
             </form>
         </div>

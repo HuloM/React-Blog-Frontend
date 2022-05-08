@@ -17,13 +17,13 @@ const Post = props => {
 
     return (
         <>
-            {showPost && <Modal onClick={handleClosePost}><IndividualPost post={post}/></Modal>}
+            {showPost && <Modal onClick={handleClosePost}><IndividualPost id={post.id}/></Modal>}
             <a onClick={handleShowPost} href={'#'}>
                 <div className='card bg-gray-500 flex justify-between grow my-2 gap-x-40' onClick={handleShowPost}>
                     <span className='text-left'>{post.title}</span>
                     <div className='top-0 right-0 text-right'>
-                        <span>{post.author}</span>
-                        <div>{post.createdAt.toLocaleString()}</div>
+                        <span>{post.author.username}</span>
+                        <div>{new Date(post.createdAt).toISOString().split('T')[0].replaceAll('-', '/')}</div>
                     </div>
                 </div>
             </a>
