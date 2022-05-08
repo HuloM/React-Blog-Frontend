@@ -77,6 +77,8 @@ const CartProvider = props => {
 
     const LogoutUserHandler = () => {
         setIsLoggedIn(false)
+        setToken('')
+        setUsername('')
         localStorage.removeItem('token')
         localStorage.removeItem('username')
         localStorage.removeItem('expiryDate')
