@@ -5,6 +5,7 @@ import authContext from '../../context/AuthContext/auth-context'
 const SigninForm = props => {
     let formIsValid = false
     const ctx = useContext(authContext)
+
     const [confirmPassword, setConfirmPassword] = useState('')
     const confirmPasswordChangeHandler = event => {
         setConfirmPassword(event.target.value)
@@ -70,13 +71,12 @@ const SigninForm = props => {
         }
         console.log(form)
         ctx.UserSignupHandler(form)
-
-        // resetUsername('')
-        // resetEmail('')
-        // resetFirstname('')
-        // resetLastname('')
-        // resetPassword('')
-        // setConfirmPassword('')
+        resetUsername('')
+        resetEmail('')
+        resetFirstname('')
+        resetLastname('')
+        resetPassword('')
+        setConfirmPassword('')
     }
     if (emailIsValid && usernameIsValid && passwordIsValid && firstnameIsValid && lastnameIsValid)
         formIsValid = true

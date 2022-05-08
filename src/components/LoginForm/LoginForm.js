@@ -30,11 +30,11 @@ const LoginForm = () => {
         event.preventDefault()
         const email = emailInput
         const password = passwordInput
-        ctx.UserLoginHandler(event, {email: email, password: password})
-        if (ctx.authError !== null) {
-            resetEmail('')
-            resetPassword('')
-        }
+        ctx.UserLoginHandler({email: email, password: password})
+        // if (ctx.authError !== null) {
+        //     resetEmail('')
+        //     resetPassword('')
+        // }
     }
     if (emailIsValid && passwordIsValid)
         formIsValid = true

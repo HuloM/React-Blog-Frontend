@@ -5,7 +5,7 @@ import AuthContext from './auth-context'
 const CartProvider = props => {
     const [isLoggedIn, setIsLoggedIn] = useState(false)
     const [token, setToken] = useState('')
-    const [userId, setUserId] = useState('')
+    const [username, setUsername] = useState('')
     const [authError, setAuthError] = useState('')
 
     const UserSignupHandler = async authdata => {
@@ -32,33 +32,41 @@ const CartProvider = props => {
             setAuthError(data.message)
             return
         }
-        const data = response.json()
         // redirect to login
     }
 
-    const UserLoginHandler = authData => {
-        // TODO: this will actually check a database
+    const UserLoginHandler = async authData => {
         setAuthError('')
-        const email = authData.email
-        const password = authData.password
 
-        if(email === 'test@test.com' && password === 'password') {
-            console.log('logged in')
-            const milliseconds = 60 * 60 * 1000
-            localStorage.setItem('token', 'will implement later')
-            const expDate = new Date(new Date().getTime() + milliseconds)
-            localStorage.setItem('expiryDate', expDate.toISOString())
+        const formData = new FormData()
+        formData.append('email', authData.email)
+        formData.append('password', authData.password)
 
-            setToken('will implement later')
-            setUserId('will implement later')
-
-            AutoLogoutUserHandler(milliseconds)
-
-            setIsLoggedIn(true)
+        const response = await fetch('http://localhost:8080/login', {
+            method: 'POST',
+            body: formData
+        })
+        const data = await response.json()
+        if (response.status !== 200) {
+            if (response.status !== 422 && response.status !== 401)
+            {
+                setAuthError('Error logging user in, please try again later')
+                return
+            }
+            setAuthError(data.message)
+            return
         }
-        else {
-            setAuthError('Invalid email or password')
-        }
+        const milliseconds = 60 * 60 * 1000
+        localStorage.setItem('token', data.token)
+        const expDate = new Date(new Date().getTime() + milliseconds)
+        localStorage.setItem('expiryDate', expDate.toISOString())
+
+        setToken(data.token)
+        setUsername(data.username)
+
+        AutoLogoutUserHandler(milliseconds)
+
+        setIsLoggedIn(true)
     }
 
     const AutoLogoutUserHandler = useCallback((milliseconds) => {
@@ -70,6 +78,7 @@ const CartProvider = props => {
     const LogoutUserHandler = () => {
         setIsLoggedIn(false)
         localStorage.removeItem('token')
+        localStorage.removeItem('username')
         localStorage.removeItem('expiryDate')
     }
 
@@ -78,18 +87,18 @@ const CartProvider = props => {
     }
 
     useEffect(() => {
-        const token = localStorage.getItem('token')
+        const cookieToken = localStorage.getItem('token')
         const expiryDate = localStorage.getItem('expiryDate')
-        if (!token || !expiryDate) {
+        if (!cookieToken || !expiryDate) {
             return
         }
         if (new Date(expiryDate) <= new Date()) {
             LogoutUserHandler()
             return
         }
-        const userId = localStorage.getItem('userId')
-        setToken(token)
-        setUserId(userId)
+        const cookieUsername = localStorage.getItem('username')
+        setToken(cookieToken)
+        setUsername(cookieUsername)
         const milliseconds = 60 * 60 * 1000
 
         const expDate =
@@ -102,7 +111,7 @@ const CartProvider = props => {
 
     const authContext = {
         token,
-        userId,
+        username,
         isLoggedIn,
         authError,
         ClickAuthModalError,
