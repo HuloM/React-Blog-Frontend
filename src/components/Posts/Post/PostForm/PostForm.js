@@ -1,9 +1,11 @@
 import {useState, useCallback, useContext} from 'react'
 import useInput from '../../../../hooks/use-input'
 import authContext from '../../../../context/AuthContext/auth-context'
+import postContext from '../../../../context/PostContext/post-context'
 
 const PostForm = props => {
-    const ctx = useContext(authContext)
+    const authCtx = useContext(authContext)
+    const postCtx = useContext(postContext)
     const [openForm, setOpenForm] = useState(false)
 
     const {
@@ -37,20 +39,16 @@ const PostForm = props => {
 
     const handleFormSubmit = async event => {
         event.preventDefault()
-        const formData = new FormData()
-        formData.append('title', titleInput)
-        formData.append('body', bodyInput)
-        formData.append('image', image)
-        const response = await fetch('http://localhost:8080/posts/', {
-            method: 'POST',
-            headers: {
-                Authorization: ctx.token
-            },
-            body: formData
-        })
-        const data = await response.json()
-        console.log(data)
-        // setOpenForm(false)
+        const post = {
+            titleInput,
+            bodyInput,
+            image
+        }
+        postCtx.onCreatePostHandler(post, authCtx.token)
+        setOpenForm(false)
+        resetBody()
+        resetTitle()
+        setImage('')
     }
 
     const handleCancelSubmit = event => {
@@ -70,8 +68,8 @@ const PostForm = props => {
                 <div>
                     <h2 className='font-bold text-center text-white'>Create New Post</h2>
                 </div>
-                {ctx.authError !== '' && <div className='bg-gray-800 text-center justify-center mt-3 rounded'>
-                    <p className='text-rose-600'>{ctx.authError}</p>
+                {authCtx.authError !== '' && <div className='bg-gray-800 text-center justify-center mt-3 rounded'>
+                    <p className='text-rose-600'>{authCtx.authError}</p>
                 </div>}
                 <div className='py-2'>
                     <label className='font-bold'>

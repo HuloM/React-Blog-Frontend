@@ -1,12 +1,15 @@
-import {useState} from 'react'
+import {useContext, useState} from 'react'
 import Modal from '../../UI/Modal/Modal'
 import IndividualPost from '../IndividualPost/IndividualPost'
-import PostForm from './PostForm/PostForm'
+import authContext from '../../../context/AuthContext/auth-context'
+import postContext from '../../../context/PostContext/post-context'
 
 
 const Post = props => {
     const [showPost, setShowPost] = useState(false)
-    const [post, setPost] = useState(props.post)
+    const authCtx = useContext(authContext)
+    const postCtx = useContext(postContext)
+    const post = props.post
 
     const handleShowPost = () => {
         setShowPost(true)
@@ -16,9 +19,14 @@ const Post = props => {
         setShowPost(false)
     }
 
+    const onPostDeleteHandler = async () => {
+        setShowPost(false)
+        postCtx.onRetrievePostsHandler()
+    }
+
     return (
         <>
-            {showPost && <Modal onClick={handleClosePost}><IndividualPost id={post.id}/></Modal>}
+            {showPost && <Modal onClick={handleClosePost}><IndividualPost id={post.id} onDelete={onPostDeleteHandler}/></Modal>}
             <a onClick={handleShowPost} href={'#'}>
                 <div className='card bg-gray-500 flex justify-between grow my-2 gap-x-40' onClick={handleShowPost}>
                     <span className='text-left'>{post.title}</span>

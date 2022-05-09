@@ -1,29 +1,17 @@
-import DummyPosts from './DummyPosts'
 import Post from './Post/Post'
-import post from './Post/Post'
-import {useEffect, useState} from 'react'
+import {useContext, useEffect, useState} from 'react'
+import postContext from '../../context/PostContext/post-context'
 
 
 const Posts = () => {
-
-    const [posts, setPosts] = useState([])
-
+    const postCtx = useContext(postContext)
     useEffect(() => {
-        const getAllPosts = async () => {
-            const url = 'http://localhost:8080/posts'
-            const method = 'GET'
-            const posts = await fetch(url, {
-                method: method
-            })
-            const data = await posts.json()
-            setPosts(data.posts)
-        }
-        getAllPosts()
+        postCtx.onRetrievePostsHandler()
     },[])
 
     return (
         <div className='flex-container h-fit'>
-            {posts.map(post => (
+            {postCtx.posts.map(post => (
                 <Post post={post} key={post.id}/>
             ))}
         </div>

@@ -2,7 +2,7 @@ import React, {useState, useEffect, useCallback} from 'react'
 
 import AuthContext from './auth-context'
 
-const CartProvider = props => {
+const AuthProvider = props => {
     const [isLoggedIn, setIsLoggedIn] = useState(false)
     const [token, setToken] = useState('')
     const [username, setUsername] = useState('')
@@ -139,4 +139,4 @@ const CartProvider = props => {
     )
 }
 
-export default CartProvider
+export default AuthProvider
