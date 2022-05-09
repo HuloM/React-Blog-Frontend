@@ -68,20 +68,24 @@ const EditPostForm = props => {
                         <span className={`${titleIsInvalid && 'text-red-700'}`}>Title:</span>
                         <input type="text" className={`form-input rounded block w-full text-black 
                                 ${titleIsInvalid && 'border-red-700 border-2'}`}
-                                onChange={titleChangeHandler} value={titleInput} onBlur={titleBlurHandler}/>
+                                onChange={titleChangeHandler} defaultValue={props.title}
+                                onBlur={titleBlurHandler}/>
                     </label>
                 </div>
                 <div className='py-2'>
                     <label className='font-bold'>
                         <span className={`${bodyIsInvalid && 'text-red-700'}`}>Body:</span>
-                        <textarea type="textarea" className={`form-textarea mt-1 w-full rounded block text-black 
+                        <textarea className={`form-textarea mt-1 w-full rounded block text-black 
                                 ${bodyIsInvalid && 'border-red-700 border-2'}`}
-                                    onChange={bodyChangeHandler} value={bodyInput} onBlur={bodyBlurHandler} rows='5'/>
+                                    onChange={bodyChangeHandler} defaultValue={props.body}
+                                    onBlur={bodyBlurHandler} rows='5'/>
                     </label>
                 </div>
                 <div className='py-2'>
                     <label className='font-bold'>
                         <span>Image:</span>
+                        <br/>
+                        <span className='text-sm'>Leave empty if you do not want to change the image</span>
                         <input type="file" className={`w-full`}
                                 onChange={onImageUploadChange}/>
                     </label>
