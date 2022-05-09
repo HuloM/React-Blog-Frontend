@@ -35,7 +35,7 @@ const Header = props => {
         <Disclosure as="nav" className="bg-gray-800">
             <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
                 <div className="relative flex items-center justify-between h-16">
-                    <h2 className='text-white text-2xl'>{ctx.username !== '' && ctx.username}</h2>
+                    <h2 className='text-white text-2xl'>{ctx.isLoggedIn && ctx.username !== '' && ctx.username}</h2>
                     <div className="absolute right-0 space-x-4">
                         {navItems.map((item) => (
                             (props.isLoggedIn === item.requireLogin || item.requireLogin === null) &&

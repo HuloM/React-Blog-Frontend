@@ -3,6 +3,7 @@ import React from 'react'
 const AuthContext = React.createContext({
     token: '',
     username: '',
+    userId: '',
     isLoggedIn: false,
     authError: '',
     ClickAuthModalError: () => {},

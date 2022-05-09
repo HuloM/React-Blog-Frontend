@@ -6,6 +6,7 @@ const CartProvider = props => {
     const [isLoggedIn, setIsLoggedIn] = useState(false)
     const [token, setToken] = useState('')
     const [username, setUsername] = useState('')
+    const [userId, setUserId] = useState('')
     const [authError, setAuthError] = useState('')
 
     const UserSignupHandler = async authdata => {
@@ -63,6 +64,10 @@ const CartProvider = props => {
 
         setToken(data.token)
         setUsername(data.username)
+        setUserId(data.userId)
+
+        localStorage.setItem('username', data.username)
+        localStorage.setItem('userId', data.userId)
 
         AutoLogoutUserHandler(milliseconds)
 
@@ -79,8 +84,10 @@ const CartProvider = props => {
         setIsLoggedIn(false)
         setToken('')
         setUsername('')
+        setUserId('')
         localStorage.removeItem('token')
         localStorage.removeItem('username')
+        localStorage.removeItem('userId')
         localStorage.removeItem('expiryDate')
     }
 
@@ -99,8 +106,10 @@ const CartProvider = props => {
             return
         }
         const cookieUsername = localStorage.getItem('username')
+        const cookieUserId = localStorage.getItem('userId')
         setToken(cookieToken)
         setUsername(cookieUsername)
+        setUserId(cookieUserId)
         const milliseconds = 60 * 60 * 1000
 
         const expDate =
@@ -114,6 +123,7 @@ const CartProvider = props => {
     const authContext = {
         token,
         username,
+        userId,
         isLoggedIn,
         authError,
         ClickAuthModalError,

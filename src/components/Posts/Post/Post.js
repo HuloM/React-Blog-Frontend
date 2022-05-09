@@ -1,11 +1,12 @@
 import {useState} from 'react'
 import Modal from '../../UI/Modal/Modal'
 import IndividualPost from '../IndividualPost/IndividualPost'
+import PostForm from './PostForm/PostForm'
+
 
 const Post = props => {
     const [showPost, setShowPost] = useState(false)
-
-    const post = props.post
+    const [post, setPost] = useState(props.post)
 
     const handleShowPost = () => {
         setShowPost(true)

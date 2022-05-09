@@ -1,10 +1,14 @@
 import Comments from '../../Comments/Comments'
 import {Component} from 'react'
+import authContext from '../../../context/AuthContext/auth-context'
 
 class IndividualPost extends Component {
+    static contextType = authContext
+
     state = {
         title: '',
         author: '',
+        authorId: '',
         image: '',
         body: '',
         comments: [],
@@ -28,7 +32,8 @@ class IndividualPost extends Component {
                 this.setState({
                     title: resData.post.title,
                     author: resData.post.author.username,
-                    image: 'http://localhost:8080/static/' + resData.post.imageUrl,
+                    authorId: resData.post.author.id,
+                    image: resData.post.imageUrl,
                     createdAt: new Date(resData.post.createdAt).toLocaleDateString('en-US'),
                     body: resData.post.body,
                     comments: resData.post.comments,
@@ -46,7 +51,7 @@ class IndividualPost extends Component {
                     {this.state.title}
                 </div>
                 <div className='flex justify-center max-h-96 w-fit'>
-                    <img src={this.state.image} alt="alt"/>
+                    <img src={'http://localhost:8080/static/' + this.state.image} alt="alt"/>
                 </div>
                 <div className='scrollbar-thin overflow-y-auto max-h-96 text-justify scroll-smooth scroll-m-auto'>
                     <p className='m-auto'>{this.state.body}</p>
@@ -57,6 +62,14 @@ class IndividualPost extends Component {
                     </h2>
                     {this.state.createdAt}
                 </div>
+                {this.state.authorId === parseInt(this.context.userId) && <div className='flex justify-center'>
+                    <button className={`rounded-full bg-gray-900 hover:bg-blue-700 text-white px-3 py-1 mt-1 mr-1`}
+                        onClick={this.props.onEdit}>
+                        Edit</button>
+                    <button className={`rounded-full bg-gray-900 hover:bg-blue-700 text-white px-3 py-1 mt-1 ml-1`}
+                        onClick={this.props.onDelete}>
+                        Delete</button>
+                </div>}
                 <div>
                     {this.state.comments.length > 0 && <Comments comments={this.state.comments}/>}
                 </div>
