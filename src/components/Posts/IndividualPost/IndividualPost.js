@@ -1,48 +1,68 @@
 import Comments from '../../Comments/Comments'
 import authContext from '../../../context/AuthContext/auth-context'
-import {useContext, useEffect} from 'react'
+import {useContext, useEffect, useState} from 'react'
 import postContext from '../../../context/PostContext/post-context'
+import Modal from '../../UI/Modal/Modal'
+import EditPostForm from './EditPostForm/EditPostForm'
 
 const IndividualPost = props => {
     const authCtx = useContext(authContext)
     const postCtx = useContext(postContext)
 
+    const [openEditForm, setOpenEditForm] = useState(false)
+
+
     useEffect(() => {
         postCtx.onRetrievePostHandler(props.id)
-    },[])
+    }, [])
 
     const onDeleteClickHandler = () => {
         postCtx.onDeletePostHandler(props.id, authCtx.token)
         props.onDelete()
     }
 
+    const OpenEditFormHandler = () => {
+        setOpenEditForm(true)
+    }
+    const CloseEditFormHandler = () => {
+        setOpenEditForm(false)
+    }
+
     return (
         <>
-            <div className='text-black text-2xl text-center font-bold'>
+            {openEditForm && <Modal><EditPostForm id={props.id} onCloseForm={CloseEditFormHandler}
+            title={postCtx.individualPost.title} body={postCtx.individualPost.body}/></Modal>}
+            <div className="text-black text-2xl text-center font-bold">
                 {postCtx.individualPost.title}
             </div>
-            <div className='flex justify-center max-h-96 w-fit'>
+            <div className="flex justify-center max-h-96 w-fit">
                 <img src={'http://localhost:8080/static/' + postCtx.individualPost.imageUrl} alt="alt"/>
             </div>
-            <div className='scrollbar-thin overflow-y-auto max-h-96 text-justify scroll-smooth scroll-m-auto'>
-                <p className='m-auto'>{postCtx.individualPost.body}</p>
+            <div className="scrollbar-thin overflow-y-auto max-h-96 text-justify scroll-smooth scroll-m-auto">
+                <p className="m-auto">{postCtx.individualPost.body}</p>
             </div>
-            <div className='text-right font-bold'>
+            <div className="text-right font-bold">
                 <h2>
                     {postCtx.individualPost.author.username}
                 </h2>
                 {new Date(postCtx.individualPost.createdAt).toLocaleString().split(',')[0]}
             </div>
-            {postCtx.individualPost.author.id === parseInt(authCtx.userId) && <div className='flex justify-center'>
+            {postCtx.individualPost.author.id === parseInt(authCtx.userId) && <div className="flex justify-center">
                 <button className={`rounded-full bg-gray-900 hover:bg-blue-700 text-white px-3 py-1 mt-1 mr-1`}
-                    >
-                    Edit</button>
+                    onClick={OpenEditFormHandler}>
+                    Edit
+                </button>
                 <button className={`rounded-full bg-gray-900 hover:bg-blue-700 text-white px-3 py-1 mt-1 ml-1`}
-                    onClick={onDeleteClickHandler}>
-                    Delete</button>
+                        onClick={onDeleteClickHandler}>
+                    Delete
+                </button>
             </div>}
             <div>
-                {postCtx.individualPost.comments !== undefined && postCtx.individualPost.comments.length > 0 && <Comments comments={postCtx.individualPost.comments}/>}
+                {authCtx.userId !== '' && <button
+                    className={`rounded-full bg-gray-900 hover:bg-blue-700 text-white px-3 py-1 mt-1 ml-1`}>
+                    Add Comment</button>}
+                {postCtx.individualPost.comments !== undefined && postCtx.individualPost.comments.length > 0 &&
+                    <Comments comments={postCtx.individualPost.comments}/>}
             </div>
         </>
     )
