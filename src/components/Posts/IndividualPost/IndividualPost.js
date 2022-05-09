@@ -4,13 +4,14 @@ import {useContext, useEffect, useState} from 'react'
 import postContext from '../../../context/PostContext/post-context'
 import Modal from '../../UI/Modal/Modal'
 import EditPostForm from './EditPostForm/EditPostForm'
+import CommentForm from './CommentForm/CommentForm'
 
 const IndividualPost = props => {
     const authCtx = useContext(authContext)
     const postCtx = useContext(postContext)
 
     const [openEditForm, setOpenEditForm] = useState(false)
-
+    const [openCommentForm, setOpenCommentForm] = useState(false)
 
     useEffect(() => {
         postCtx.onRetrievePostHandler(props.id)
@@ -26,6 +27,12 @@ const IndividualPost = props => {
     }
     const CloseEditFormHandler = () => {
         setOpenEditForm(false)
+    }
+    const OpenCommentFormHandler = () => {
+        setOpenCommentForm(true)
+    }
+    const CloseCommentFormHandler = () => {
+        setOpenCommentForm(false)
     }
 
     return (
@@ -58,9 +65,10 @@ const IndividualPost = props => {
                 </button>
             </div>}
             <div>
-                {authCtx.userId !== '' && <button
+                {authCtx.userId !== '' && !openCommentForm && <button onClick={OpenCommentFormHandler}
                     className={`rounded-full bg-gray-900 hover:bg-blue-700 text-white px-3 py-1 mt-1 ml-1`}>
                     Add Comment</button>}
+                {openCommentForm && <CommentForm onCloseForm={CloseCommentFormHandler}/>}
                 {postCtx.individualPost.comments !== undefined && postCtx.individualPost.comments.length > 0 &&
                     <Comments comments={postCtx.individualPost.comments}/>}
             </div>

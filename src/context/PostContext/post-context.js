@@ -5,7 +5,7 @@ const PostContext = React.createContext({
     individualPost: {},
     postError: '',
     onCreatePostHandler: (postData, token) => {},
-    onCreateCommentHandler: (postId, postData, token) => {},
+    onCreateCommentHandler: (postId, commentData, token) => {},
     onRetrievePostHandler: (postId) => {},
     onRetrievePostsHandler: () => {},
     onUpdatePostHandler: (postId, postData, token) => {},

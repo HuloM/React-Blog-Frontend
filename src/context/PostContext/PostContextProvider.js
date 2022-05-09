@@ -98,8 +98,24 @@ const PostProvider = props => {
         }
     }
 
-    const onCreateCommentHandler = (postId, postData, token) => {
+    const onCreateCommentHandler = async (postId, commentData, token) => {
+        const formData = new FormData()
+        formData.append('comment', commentData)
 
+        const response = await fetch(
+            `http://localhost:8080/post/comments/${postId}`, {
+                method: 'POST',
+                headers: {
+                    Authorization: token
+                },
+                body: formData
+            })
+        const data = await response.json()
+        console.log(data)
+        if (response.status !== 200) {
+            setPostError(data.message)
+            return
+        }
     }
 
     const postContext = {
