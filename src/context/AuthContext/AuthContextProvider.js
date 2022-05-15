@@ -33,7 +33,6 @@ const AuthProvider = props => {
             setAuthError(data.message)
             return
         }
-        // redirect to login
     }
 
     const UserLoginHandler = async authData => {
@@ -48,6 +47,7 @@ const AuthProvider = props => {
             body: formData
         })
         const data = await response.json()
+        console.log(data)
         if (response.status !== 200) {
             if (response.status !== 422 && response.status !== 401)
             {
@@ -58,11 +58,11 @@ const AuthProvider = props => {
             return
         }
         const milliseconds = 60 * 60 * 1000
-        localStorage.setItem('token', data.token)
+        localStorage.setItem('token', `JWT ${data.token}`)
         const expDate = new Date(new Date().getTime() + milliseconds)
         localStorage.setItem('expiryDate', expDate.toISOString())
 
-        setToken(data.token)
+        setToken(`JWT ${data.token}`)
         setUsername(data.username)
         setUserId(data.userId)
 

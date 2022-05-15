@@ -3,6 +3,8 @@ import React, {useState} from 'react'
 import PostContext from './post-context'
 
 const PostProvider = props => {
+    const [page, setPage] = useState(1)
+    const [totalPages, setTotalPages] = useState(0)
     const [posts, setPosts] = useState([])
     const [individualPost, setIndividualPost] = useState({
         title: '',
@@ -50,14 +52,19 @@ const PostProvider = props => {
         setIndividualPost(data.post)
     }
 
-    const onRetrievePostsHandler = async () => {
-        const url = 'http://localhost:8080/posts'
+    const onRetrievePostsHandler = async (page) => {
+        setPage(page)
+        console.log(page)
+        const url = 'http://localhost:8080/posts/' + page
         const method = 'GET'
-        const posts = await fetch(url, {
+        console.log(url)
+        const posts = await fetch('http://localhost:8080/posts/' + page, {
             method: method
         })
+        console.log(posts)
         const data = await posts.json()
         setPosts(data.posts)
+        setTotalPages(data.totalPages)
         console.log(data)
         console.log(posts)
     }
@@ -119,6 +126,8 @@ const PostProvider = props => {
     }
 
     const postContext = {
+        page,
+        totalPages,
         posts,
         individualPost,
         postError,

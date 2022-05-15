@@ -43,7 +43,8 @@ const IndividualPost = props => {
                 {postCtx.individualPost.title}
             </div>
             <div className="flex justify-center max-h-96 w-fit">
-                <img src={'http://localhost:8080/static/' + postCtx.individualPost.imageUrl} alt="alt"/>
+                {/*Django: 'http://localhost:8080' Flask: 'http://localhost:8080/static/' */}
+                <img src={'http://localhost:8080' + postCtx.individualPost.imageUrl} alt="alt"/>
             </div>
             <div className="scrollbar-thin overflow-y-auto max-h-96 text-justify scroll-smooth scroll-m-auto">
                 <p className="m-auto">{postCtx.individualPost.body}</p>
